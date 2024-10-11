@@ -25,7 +25,7 @@ Post App is a simple Android application that allows users to create, update, an
 
 ## Screenshots:
 <div>
-<img src="" width="150">
-<img src="" width="150">
-<img src="" width="150">
+<img src="https://github.com/redaxxxx/PostApp/blob/master/image1.jpeg" width="150">
+<img src="https://github.com/redaxxxx/PostApp/blob/master/image2.jpeg" width="150">
+<img src="https://github.com/redaxxxx/PostApp/blob/master/image3.jpeg" width="150">
 </div>
