@@ -49,6 +49,21 @@ class DetailPostFragment : Fragment() {
             false
         )
 
+        lifecycleScope.launch {
+            viewModel.deletePost.collectLatest {
+                when(it){
+                    is Resource.Success->{
+                        findNavController().navigateUp()
+                        Toast.makeText(requireActivity(), "Delete Post Success", Toast.LENGTH_LONG).show()
+                    }
+                    is Resource.Failed->{
+                        Log.d(TAG, "Delete Post Error: ${it.message}")
+                    }
+                    else -> Unit
+                }
+            }
+        }
+
         return binding.root
     }
 
@@ -86,20 +101,6 @@ class DetailPostFragment : Fragment() {
             alertDialog.show()
         }
 
-        lifecycleScope.launch {
-            viewModel.deletePost.collectLatest {
-                when(it){
-                    is Resource.Success->{
-                        findNavController().navigateUp()
-                        Toast.makeText(requireActivity(), "Delete Post Success", Toast.LENGTH_LONG).show()
-                    }
-                    is Resource.Failed->{
-                        Log.d(TAG, "Delete Post Error: ${it.message}")
-                    }
-                    else -> Unit
-                }
-            }
-        }
     }
 
 

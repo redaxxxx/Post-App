@@ -3,16 +3,15 @@ package com.android.developer.prof.reda.astraposts.addPostFragment
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -30,7 +29,6 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.lang.Error
 
 private const val TAG = "AddPostFragment"
 
@@ -48,14 +46,14 @@ class AddPostFragment : Fragment() {
 
     private val getImage: ActivityResultLauncher<String> =
         registerForActivityResult(
-            ActivityResultContracts.GetContent(),
-            ActivityResultCallback<Uri?>() {
-                Glide.with(requireActivity())
-                    .load(it.toString())
-                    .into(binding.addPostPic)
+            ActivityResultContracts.GetContent()
+        ) {
+            Glide.with(requireActivity())
+                .load(it.toString())
+                .into(binding.addPostPic)
 
-                picUri = it
-            })
+            picUri = it
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -104,65 +102,6 @@ class AddPostFragment : Fragment() {
             Glide.with(requireActivity())
                 .load(postArgs?.post_image)
                 .into(binding.addPostPic)
-
-            //update post
-            lifecycleScope.launch {
-                viewModel.updatePost.collectLatest {
-                    when (it) {
-                        is Resource.Loading -> {
-                            binding.progressBarAddPost.visibility = View.VISIBLE
-                        }
-
-                        is Resource.Success -> {
-                            binding.progressBarAddPost.visibility = View.GONE
-
-                            findNavController().navigateUp()
-
-                            binding.addPostPic.setImageResource(0)
-                            binding.titleEt.text?.clear()
-                            binding.messageEt.text?.clear()
-
-                        }
-
-                        is Resource.Failed -> {
-                            binding.progressBarAddPost.visibility = View.GONE
-                            Log.d(TAG, "update Error is ${it.message}")
-                        }
-
-                        else -> Unit
-                    }
-                }
-            }
-
-        } else {
-            //add new post
-            lifecycleScope.launch {
-                viewModel.addPost.collectLatest {
-                    when (it) {
-                        is Resource.Loading -> {
-                            binding.progressBarAddPost.visibility = View.VISIBLE
-                        }
-
-                        is Resource.Success -> {
-                            binding.progressBarAddPost.visibility = View.GONE
-
-                            findNavController().navigateUp()
-
-                            binding.addPostPic.setImageResource(0)
-                            binding.titleEt.text?.clear()
-                            binding.messageEt.text?.clear()
-
-                        }
-
-                        is Resource.Failed -> {
-                            binding.progressBarAddPost.visibility = View.GONE
-                            Log.d(TAG, "Add new post Error is ${it.message}")
-                        }
-
-                        else -> Unit
-                    }
-                }
-            }
         }
 
         binding.addPicBtn.setOnClickListener {
@@ -193,6 +132,62 @@ class AddPostFragment : Fragment() {
             }
         }
 
+        //update post
+        lifecycleScope.launch {
+            viewModel.updatePost.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        binding.progressBarAddPost.visibility = View.VISIBLE
+                    }
 
+                    is Resource.Success -> {
+                        binding.progressBarAddPost.visibility = View.GONE
+
+                        findNavController().navigateUp()
+
+                        binding.addPostPic.setImageResource(0)
+                        binding.titleEt.text?.clear()
+                        binding.messageEt.text?.clear()
+
+                    }
+
+                    is Resource.Failed -> {
+                        binding.progressBarAddPost.visibility = View.GONE
+                        Log.d(TAG, "update Error is ${it.message}")
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
+
+        //add new post
+        lifecycleScope.launch {
+            viewModel.addPost.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        binding.progressBarAddPost.visibility = View.VISIBLE
+                    }
+
+                    is Resource.Success -> {
+                        binding.progressBarAddPost.visibility = View.GONE
+
+                        findNavController().navigateUp()
+
+                        binding.addPostPic.setImageResource(0)
+                        binding.titleEt.text?.clear()
+                        binding.messageEt.text?.clear()
+
+                    }
+
+                    is Resource.Failed -> {
+                        binding.progressBarAddPost.visibility = View.GONE
+                        Log.d(TAG, "Add new post Error is ${it.message}")
+                    }
+
+                    else -> Unit
+                }
+            }
+        }
     }
 }
