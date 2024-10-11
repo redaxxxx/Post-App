@@ -21,10 +21,8 @@ import com.android.developer.prof.reda.astraposts.R
 import com.android.developer.prof.reda.astraposts.SharedViewModel
 import com.android.developer.prof.reda.astraposts.databinding.FragmentAddPostBinding
 import com.android.developer.prof.reda.astraposts.util.Resource
-import com.android.developer.prof.reda.astraposts.util.createPartFromInt
 import com.android.developer.prof.reda.astraposts.util.createPartFromString
 import com.android.developer.prof.reda.astraposts.util.getImageMultipart
-import com.android.developer.prof.reda.astraposts.util.getUpdateImageMultipart
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -119,7 +117,8 @@ class AddPostFragment : Fragment() {
                     postArgs!!.post_image,
                     postArgs!!.post_title,
                     postArgs!!.post_message,
-                    requireActivity().contentResolver
+                    requireActivity().contentResolver,
+                    requireActivity()
 
                 )
 
