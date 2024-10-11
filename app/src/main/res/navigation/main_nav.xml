@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/postFragment">
+
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.android.developer.prof.reda.astraposts.postFragment.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" >
+        <action
+            android:id="@+id/action_postFragment_to_detailPostFragment"
+            app:destination="@id/detailPostFragment" />
+        <action
+            android:id="@+id/action_postFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailPostFragment"
+        android:name="com.android.developer.prof.reda.astraposts.detailFragment.DetailPostFragment"
+        android:label="DetailPostFragment"
+        tools:layout="@layout/fragment_detail_post">
+        <argument
+            android:name="Post"
+            app:argType="com.android.developer.prof.reda.astraposts.PostModel" />
+        <action
+            android:id="@+id/action_detailPostFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPostFragment"
+        android:name="com.android.developer.prof.reda.astraposts.addPostFragment.AddPostFragment"
+        android:label="AddPostFragment"
+        tools:layout="@layout/fragment_add_post">
+        <argument
+            android:name="isUpdate"
+            app:argType="boolean" />
+    </fragment>
+
+
+</navigation>
