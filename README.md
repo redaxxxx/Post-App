@@ -22,3 +22,10 @@ Post App is a simple Android application that allows users to create, update, an
 - **Minimum SDK**: 21 (Android 5.0 Lollipop)
 - **Gradle**: Latest version.
 - **Backend API**: A running backend server with endpoints for post creation and updating.
+
+## Screenshots:
+<div>
+<img src="" width="150">
+<img src="" width="150">
+<img src="" width="150">
+</div>

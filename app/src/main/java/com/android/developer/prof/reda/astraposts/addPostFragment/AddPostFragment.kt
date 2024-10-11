@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
@@ -95,6 +96,8 @@ class AddPostFragment : Fragment() {
             }
 
             binding.publishBtn.text = getString(R.string.update_string)
+            binding.publishBtn.setText(getString(R.string.update_string))
+            binding.addPostLabel.text = getString(R.string.update_post)
             binding.titleEt.setText(postArgs?.post_title.toString())
             binding.messageEt.setText(postArgs?.post_message.toString())
 
@@ -153,6 +156,7 @@ class AddPostFragment : Fragment() {
                     is Resource.Failed -> {
                         binding.progressBarAddPost.visibility = View.GONE
                         Log.d(TAG, "update Error is ${it.message}")
+                        Toast.makeText(requireActivity(), "Update Failed: ${it.message}", Toast.LENGTH_LONG).show()
                     }
 
                     else -> Unit
@@ -182,6 +186,7 @@ class AddPostFragment : Fragment() {
                     is Resource.Failed -> {
                         binding.progressBarAddPost.visibility = View.GONE
                         Log.d(TAG, "Add new post Error is ${it.message}")
+                        Toast.makeText(requireActivity(), "Add Post Failed: ${it.message}", Toast.LENGTH_LONG).show()
                     }
 
                     else -> Unit

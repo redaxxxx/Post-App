@@ -11,4 +11,5 @@
     <string name="content_description">content_description</string>
     <string name="edit_content_description">Edit Post Button</string>
     <string name="delete_content_description">Delete Post Button</string>
+    <string name="update_post">Update Post</string>
 </resources>
