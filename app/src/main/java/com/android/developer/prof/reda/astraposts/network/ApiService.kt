@@ -24,11 +24,20 @@ interface ApiService {
 
     @Multipart
     @POST("updatepost")
-    suspend fun updatePost(
+    suspend fun updatePostWithFile(
         @Part("id") id: RequestBody,
         @Part("post_title") postTitle: RequestBody,
         @Part("post_message") postMessage: RequestBody,
         @Part post_image: MultipartBody.Part
+    ): Response<ResponseBody>
+
+    @Multipart
+    @POST("updatepost")
+    suspend fun updatePostWithUrl(
+        @Part("id") id: RequestBody,
+        @Part("post_title") postTitle: RequestBody,
+        @Part("post_message") postMessage: RequestBody,
+        @Part ("post_image") postImage: RequestBody
     ): Response<ResponseBody>
 
     @Multipart

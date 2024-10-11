@@ -53,6 +53,7 @@ class AddPostFragment : Fragment() {
                 .into(binding.addPostPic)
 
             picUri = it
+
         }
 
     override fun onCreateView(
@@ -111,18 +112,15 @@ class AddPostFragment : Fragment() {
         }
 
         binding.publishBtn.setOnClickListener {
-
             if (isUpdate) {
-                val imagePart = getUpdateImageMultipart(
-                    picUri!!, requireActivity().contentResolver,
-                    requireActivity()
-                )
-
                 viewModel.updatePost(
-                    createPartFromInt(postArgs!!.id),
-                    imagePart!!,
-                    createPartFromString(binding.titleEt.text.toString()),
-                    createPartFromString(binding.messageEt.text.toString())
+                    postArgs!!.id,
+                    picUri!!,
+                    postArgs!!.post_image,
+                    postArgs!!.post_title,
+                    postArgs!!.post_message,
+                    requireActivity().contentResolver
+
                 )
 
             } else {
@@ -156,7 +154,11 @@ class AddPostFragment : Fragment() {
                     is Resource.Failed -> {
                         binding.progressBarAddPost.visibility = View.GONE
                         Log.d(TAG, "update Error is ${it.message}")
-                        Toast.makeText(requireActivity(), "Update Failed: ${it.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireActivity(),
+                            "Update Failed: ${it.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
 
                     else -> Unit
@@ -186,7 +188,11 @@ class AddPostFragment : Fragment() {
                     is Resource.Failed -> {
                         binding.progressBarAddPost.visibility = View.GONE
                         Log.d(TAG, "Add new post Error is ${it.message}")
-                        Toast.makeText(requireActivity(), "Add Post Failed: ${it.message}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireActivity(),
+                            "Add Post Failed: ${it.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
 
                     else -> Unit
