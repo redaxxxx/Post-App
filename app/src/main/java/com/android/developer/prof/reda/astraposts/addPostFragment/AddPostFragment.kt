@@ -96,7 +96,7 @@ class AddPostFragment : Fragment() {
             }
 
             binding.publishBtn.text = getString(R.string.update_string)
-            binding.publishBtn.setText(getString(R.string.update_string))
+            binding.publishBtn.text = getString(R.string.update_string)
             binding.addPostLabel.text = getString(R.string.update_post)
             binding.titleEt.setText(postArgs?.post_title.toString())
             binding.messageEt.setText(postArgs?.post_message.toString())

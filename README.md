@@ -16,7 +16,7 @@ Post App is a simple Android application that allows users to create, update, an
 - **Architecture**: MVVM (Model-View-ViewModel)
 
 ## Prerequisites
-# Before running the project, ensure you have the following:
+### Before running the project, ensure you have the following:
 
 - **Android Studio**: Version 4.0 or above.
 - **Minimum SDK**: 21 (Android 5.0 Lollipop)
