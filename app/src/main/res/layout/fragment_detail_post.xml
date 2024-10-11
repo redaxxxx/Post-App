@@ -25,7 +25,8 @@
                     android:id="@+id/post_pic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/content_description" />
 
                 <ImageView
                     android:id="@+id/detail_backBtn"
@@ -35,7 +36,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"/>
+                    android:layout_marginStart="16dp"
+                    android:contentDescription="@string/content_description" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -43,7 +45,7 @@
                 android:id="@+id/post_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hello"
+                android:text="@string/title"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/darkBlue"
@@ -54,7 +56,7 @@
                 android:id="@+id/post_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Message"
+                android:text="@string/message"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
@@ -65,14 +67,27 @@
 
         <ImageButton
             android:id="@+id/edit_btn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/ic_edit"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/blue_btn_bg"
+            app:layout_constraintBottom_toTopOf="@id/delete_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/edit_content_description" />
+
+        <ImageButton
+            android:id="@+id/delete_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_delete"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/blue_btn_bg"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/delete_content_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

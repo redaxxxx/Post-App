@@ -1,6 +1,8 @@
 package com.android.developer.prof.reda.astraposts.util
 
 import android.content.ContentResolver
+import android.content.Context
+import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
@@ -29,30 +31,16 @@ fun getImageMultipart(imageUri: Uri, contentResolver: ContentResolver): Multipar
     return MultipartBody.Part.createFormData("post_image", file.name, requestFile)
 }
 
-fun getUpdateImageMultipart(imageUri: Uri, contentResolver: ContentResolver): MultipartBody.Part? {
+fun getUpdateImageMultipart(imageUri: Uri, contentResolver: ContentResolver, context: Context): MultipartBody.Part? {
     return try {
-        // Attempt to get file name from OpenableColumns
-        var fileName: String? = null
-        val cursor = contentResolver.query(imageUri, null, null, null, null)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (nameIndex >= 0) {
-                    fileName = cursor.getString(nameIndex)
-                }
-            }
-        }
-
-        // If fileName is still null, extract from URI
-        if (fileName == null) {
-            fileName = imageUri.lastPathSegment ?: "unknown_image"
-        }
+        // Get file name
+        val fileName = getFileNameFromUri(imageUri, contentResolver)
 
         // Open InputStream for reading the file
         val inputStream: InputStream? = contentResolver.openInputStream(imageUri)
-        val tempFile = createTempFile("upload", fileName)
+        val tempFile = File.createTempFile("upload", fileName, context.cacheDir)
 
-        // Write the InputStream to the temporary file
+        // Write InputStream to the temporary file
         inputStream?.use { input ->
             tempFile.outputStream().use { output ->
                 input.copyTo(output)
@@ -66,6 +54,22 @@ fun getUpdateImageMultipart(imageUri: Uri, contentResolver: ContentResolver): Mu
         e.printStackTrace()
         null
     }
+}
+
+fun getFileNameFromUri(uri: Uri, contentResolver: ContentResolver): String {
+    var fileName: String? = null
+    val cursor: Cursor? = contentResolver.query(uri, null, null, null, null)
+    cursor?.use {
+        if (it.moveToFirst()) {
+            val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            if (nameIndex >= 0) {
+                fileName = it.getString(nameIndex)
+            }
+        }
+    }
+
+    // Fallback to extracting file name from URI if the cursor is empty
+    return fileName ?: uri.lastPathSegment ?: "unknown_file"
 }
 
 fun createPartFromString(text: String): RequestBody{

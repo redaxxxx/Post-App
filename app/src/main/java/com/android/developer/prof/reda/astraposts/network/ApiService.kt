@@ -31,4 +31,10 @@ interface ApiService {
         @Part("post_message") postMessage: RequestBody,
         @Part post_image: MultipartBody.Part
     ): Response<ResponseBody>
+
+    @Multipart
+    @POST("deletepost")
+    suspend fun deletePost(
+        @Part("id") id: RequestBody
+    ): Response<ResponseBody>
 }

@@ -8,4 +8,7 @@
     <string name="message">Message</string>
     <string name="publish_text">Publish</string>
     <string name="update_string">Update</string>
+    <string name="content_description">content_description</string>
+    <string name="edit_content_description">Edit Post Button</string>
+    <string name="delete_content_description">Delete Post Button</string>
 </resources>

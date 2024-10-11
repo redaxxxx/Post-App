@@ -88,6 +88,7 @@ class AddPostFragment : Fragment() {
                     when (it) {
                         is Resource.Success -> {
                             postArgs = it.data
+                            picUri = postArgs?.post_image?.toUri()
                             Log.d(TAG, "data is ${it.data}")
                         }
 
@@ -104,6 +105,34 @@ class AddPostFragment : Fragment() {
                 .load(postArgs?.post_image)
                 .into(binding.addPostPic)
 
+            //update post
+            lifecycleScope.launch {
+                viewModel.updatePost.collectLatest {
+                    when (it) {
+                        is Resource.Loading -> {
+                            binding.progressBarAddPost.visibility = View.VISIBLE
+                        }
+
+                        is Resource.Success -> {
+                            binding.progressBarAddPost.visibility = View.GONE
+
+                            findNavController().navigateUp()
+
+                            binding.addPostPic.setImageResource(0)
+                            binding.titleEt.text?.clear()
+                            binding.messageEt.text?.clear()
+
+                        }
+
+                        is Resource.Failed -> {
+                            binding.progressBarAddPost.visibility = View.GONE
+                            Log.d(TAG, "update Error is ${it.message}")
+                        }
+
+                        else -> Unit
+                    }
+                }
+            }
 
         } else {
             //add new post
@@ -143,9 +172,14 @@ class AddPostFragment : Fragment() {
         binding.publishBtn.setOnClickListener {
 
             if (isUpdate) {
+                val imagePart = getUpdateImageMultipart(
+                    picUri!!, requireActivity().contentResolver,
+                    requireActivity()
+                )
+
                 viewModel.updatePost(
                     createPartFromInt(postArgs!!.id),
-                    getUpdateImageMultipart(postArgs!!.post_image.toUri(), requireActivity().contentResolver)!!,
+                    imagePart!!,
                     createPartFromString(binding.titleEt.text.toString()),
                     createPartFromString(binding.messageEt.text.toString())
                 )
@@ -159,33 +193,6 @@ class AddPostFragment : Fragment() {
             }
         }
 
-        //update post
-        lifecycleScope.launch {
-            viewModel.updatePost.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-                        binding.progressBarAddPost.visibility = View.VISIBLE
-                    }
 
-                    is Resource.Success -> {
-                        binding.progressBarAddPost.visibility = View.GONE
-
-                        findNavController().navigateUp()
-
-                        binding.addPostPic.setImageResource(0)
-                        binding.titleEt.text?.clear()
-                        binding.messageEt.text?.clear()
-
-                    }
-
-                    is Resource.Failed -> {
-                        binding.progressBarAddPost.visibility = View.GONE
-                        Log.d(TAG, "update Error is ${it.message}")
-                    }
-
-                    else -> Unit
-                }
-            }
-        }
     }
 }
